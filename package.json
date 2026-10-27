@@ -1,0 +1,16 @@
+{
+  "name": "fe-kamoku-b",
+  "version": "0.1.0",
+  "private": true,
+  "description": "基本情報技術者試験 科目B オリジナル問題演習サイト（静的サイトジェネレータ）",
+  "scripts": {
+    "verify": "node verify.js",
+    "build": "node build.js",
+    "build:local": "node build.js --base-url http://localhost:8080/",
+    "serve": "node serve.js 8080",
+    "dev": "node verify.js && node build.js --base-url http://localhost:8080/ && node serve.js 8080"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

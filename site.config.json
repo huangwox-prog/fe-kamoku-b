@@ -1,0 +1,18 @@
+{
+  "siteName": "基本情報 科目B 演習",
+  "siteDescription": "基本情報技術者試験 科目Bのオリジナル問題を、スマホで1問ずつ解けるサイトです。擬似言語のアルゴリズム問題を、解説とトレース表つきで学べます。",
+  "baseUrl": "https://example.github.io/fe-kamoku-b/",
+  "lang": "ja",
+  "ogImage": "",
+  "latestCount": 10,
+  "publishStatuses": ["verified", "reviewed"],
+  "ads": {
+    "enabled": false,
+    "client": "ca-pub-0000000000000000",
+    "slots": {
+      "question-top": "",
+      "question-bottom": "",
+      "list-bottom": ""
+    }
+  }
+}
