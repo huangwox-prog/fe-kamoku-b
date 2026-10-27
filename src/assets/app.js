@@ -23,6 +23,24 @@
     }
   }
 
+  // 画面中央に大きな ○ / × を一瞬表示する（表示後は要素ごと削除）
+  function showJudgeMark(correct) {
+    var old = document.querySelector('.judge-overlay');
+    if (old) old.parentNode.removeChild(old);
+    var overlay = document.createElement('div');
+    overlay.className = 'judge-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    var mark = document.createElement('div');
+    mark.className = 'judge-mark ' + (correct ? 'is-correct' : 'is-wrong');
+    overlay.appendChild(mark);
+    document.body.appendChild(overlay);
+    function remove() {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }
+    mark.addEventListener('animationend', remove);
+    setTimeout(remove, 1500); // animationend が来ない環境でも必ず消す
+  }
+
   // ---- 問題ページ ----
   function setupQuestion(article) {
     var id = article.getAttribute('data-question-id');
@@ -51,6 +69,7 @@
       button.addEventListener('click', function () {
         var chosen = button.getAttribute('data-label');
         var correct = showResult(chosen);
+        showJudgeMark(correct);
         var history = loadHistory();
         history[id] = { choice: chosen, correct: correct, answeredAt: new Date().toISOString() };
         saveHistory(history);

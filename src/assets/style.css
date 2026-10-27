@@ -187,6 +187,57 @@ code {
 .result.is-correct { color: var(--ok); }
 .result.is-wrong { color: var(--ng); }
 
+/* 選択肢を押したときに中央に出る ○ / × の演出（app.js が追加し、アニメーション後に削除する） */
+.judge-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.judge-mark {
+  --size: min(60vw, 280px);
+  --stroke: calc(var(--size) * 0.12);
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  animation: judge-pop 1s ease-out forwards;
+}
+.judge-mark.is-correct {
+  border: var(--stroke) solid var(--ok);
+  border-radius: 50%;
+}
+.judge-mark.is-wrong::before,
+.judge-mark.is-wrong::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: var(--stroke);
+  background: var(--ng);
+  border-radius: var(--stroke);
+}
+.judge-mark.is-wrong::before { transform: translate(-50%, -50%) rotate(45deg); }
+.judge-mark.is-wrong::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+@keyframes judge-pop {
+  0% { opacity: 0; transform: scale(0.3); }
+  25% { opacity: 0.95; transform: scale(1.12); }
+  40% { transform: scale(1); }
+  65% { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+@keyframes judge-fade {
+  0% { opacity: 0; }
+  20%, 65% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .judge-mark { animation-name: judge-fade; }
+}
+
 .explanation {
   margin-top: 16px; padding: 4px 18px 8px;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
