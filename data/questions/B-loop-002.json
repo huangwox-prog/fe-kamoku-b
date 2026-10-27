@@ -1,0 +1,45 @@
+{
+  "id": "B-loop-002",
+  "title": "while 文の終了条件と繰返し回数",
+  "category": "loop",
+  "difficulty": 1,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "貯金額を毎日50円ずつ増やしながら合計していくwhile文で，繰返しが何回実行されるかを求める問題。終了条件の「＜」がポイントです。",
+  "statement": [
+    "次の記述中の［　　］に入れる正しい答えを，解答群の中から選べ。",
+    "関数 `daysToGoal` は，1 日目に 100 円を貯金し，翌日からは前日より 50 円多く貯金していくときの日数を求める。",
+    "関数 `daysToGoal` を `daysToGoal(1000)` として呼び出すと，戻り値は［　　］である。"
+  ],
+  "code": "○整数型: daysToGoal(整数型: goal)\n  整数型: total ← 0\n  整数型: day ← 0\n  整数型: deposit ← 100\n  while (total ＜ goal)\n    day ← day ＋ 1\n    total ← total ＋ deposit\n    deposit ← deposit ＋ 50\n  endwhile\n  return day",
+  "choices": [
+    { "label": "ア", "text": "4" },
+    { "label": "イ", "text": "5" },
+    { "label": "ウ", "text": "6" },
+    { "label": "エ", "text": "10" }
+  ],
+  "answer": "イ",
+  "explanation": [
+    "5行目の while 文は，**繰返しの前に**条件 total ＜ goal を調べ，真の間だけ6〜8行目を実行します。",
+    "7行目で total に deposit を足し，8行目で deposit を 50 増やすので，total は 100 → 250 → 450 → 700 → 1000 と増えます。5 回目の繰返しの後に total ＝ 1000 となり，次の5行目の判定 1000 ＜ 1000 は偽なので繰返しを終えます。この時点で day は 5 なので，10行目で 5 を返します。正解は **イ** です。",
+    "**ア（4）** は，合計が goal に届く回（5 回目）を数えずに，その直前で終わると考えた場合です。5回目も判定時点では total ＝ 700 ＜ 1000 なので実行されます。",
+    "**ウ（6）** は，5行目の条件を total ≦ goal と読み違えた場合です。≦ なら total ＝ 1000 でも繰返しが続き，6 回目（total ＝ 1350）まで進みます。",
+    "**エ（10）** は，8行目を見落として毎日 100 円ずつ貯金すると考えた場合（1000 ÷ 100）です。"
+  ],
+  "trace": {
+    "columns": ["回", "total ＜ goal（5行目）", "day", "total", "deposit"],
+    "rows": [
+      ["（開始）", "-", "0", "0", "100"],
+      ["1", "0 ＜ 1000 → 真", "1", "100", "150"],
+      ["2", "100 ＜ 1000 → 真", "2", "250", "200"],
+      ["3", "250 ＜ 1000 → 真", "3", "450", "250"],
+      ["4", "450 ＜ 1000 → 真", "4", "700", "300"],
+      ["5", "700 ＜ 1000 → 真", "5", "1000", "350"],
+      ["-", "1000 ＜ 1000 → 偽", "5", "1000", "350"]
+    ]
+  },
+  "verify": {
+    "code": "function daysToGoal(goal) {\n  let total = 0;\n  let day = 0;\n  let deposit = 100;\n  while (total < goal) {\n    day = day + 1;\n    total = total + deposit;\n    deposit = deposit + 50;\n  }\n  return day;\n}\nreturn daysToGoal(1000);",
+    "expected": "5"
+  }
+}
