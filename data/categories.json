@@ -1,6 +1,7 @@
 [
   { "id": "loop", "name": "繰返し・ループ", "description": "for / while による繰返し処理と、変数の値の変化を追う問題。" },
   { "id": "array", "name": "配列", "description": "配列の参照・更新・探索を扱う問題。" },
+  { "id": "search", "name": "探索", "description": "線形探索・二分探索など、配列から目的の値を探す問題。" },
   { "id": "sort", "name": "整列（ソート）", "description": "バブルソートや選択ソートなど、整列アルゴリズムの問題。" },
   { "id": "recursion", "name": "再帰", "description": "関数が自分自身を呼び出す再帰処理の問題。" },
   { "id": "string", "name": "文字列", "description": "文字列の操作・照合を扱う問題。" },

@@ -1,0 +1,42 @@
+{
+  "id": "B-search-003",
+  "title": "二分探索で mid に代入される値の順序",
+  "category": "search",
+  "difficulty": 2,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "昇順に整列された9要素の配列を二分探索するとき、midに代入される値を順に答える問題。商の切捨てと、low・highの更新をトレースします。",
+  "statement": [
+    "次の関数 `binarySearch` は、昇順に整列された配列 `data` から値 `target` を二分探索し、見つかった要素番号を返す。見つからなければ -1 を返す。配列の要素番号は 1 から始まる。",
+    "`data` が {4, 9, 13, 18, 25, 31, 37, 42, 50} のとき、`binarySearch(data, 42)` を呼び出した。6行目で `mid` に代入される値を、代入された順に並べたものとして正しいものを解答群の中から選べ。"
+  ],
+  "code": "○整数型: binarySearch(整数型の配列: data, 整数型: target)\n  整数型: low ← 1\n  整数型: high ← dataの要素数\n  整数型: mid\n  while (low ≦ high)\n    mid ← (low + high) ÷ 2 の商\n    if (data[mid] が target と等しい)\n      return mid\n    elseif (data[mid] < target)\n      low ← mid + 1\n    else\n      high ← mid - 1\n    endif\n  endwhile\n  return -1",
+  "choices": [
+    { "label": "ア", "text": "5, 7, 8" },
+    { "label": "イ", "text": "5, 8" },
+    { "label": "ウ", "text": "5, 2, 1" },
+    { "label": "エ", "text": "4, 6, 7" }
+  ],
+  "answer": "ア",
+  "explanation": [
+    "2〜3行目で low = 1、high = 9 になります。",
+    "1回目: 6行目で mid = (1 + 9) ÷ 2 の商 = 5。data[5] = 25 は 42 より小さいので、9行目の条件が真になり、10行目で low = 6 になります。",
+    "2回目: mid = (6 + 9) ÷ 2 の商 = 7（15 ÷ 2 = 7.5 の小数点以下を切り捨て）。data[7] = 37 < 42 なので、10行目で low = 8 になります。",
+    "3回目: mid = (8 + 9) ÷ 2 の商 = 8。data[8] = 42 は target と等しいので、8行目で 8 を返します。したがって mid は 5, 7, 8 の順に代入され、正解は **ア** です。",
+    "**イ（5, 8）** は、2回目の 15 ÷ 2 = 7.5 を切り上げて 8 にした場合です。「の商」は小数点以下を切り捨てた整数です。",
+    "**ウ（5, 2, 1）** は、9行目の条件 data[mid] < target が真のときに12行目（high ← mid - 1）を実行すると、左右を逆に読み違えた場合です。目的の値より小さい要素を見たら、探す範囲は右側（low を増やす方向）になります。",
+    "**エ（4, 6, 7）** は、要素番号を 0 から数えた（low = 0、high = 8 で始めた）場合です。この擬似言語では要素番号は 1 から始まります。"
+  ],
+  "trace": {
+    "columns": ["回", "low", "high", "mid（6行目）", "data[mid]", "比較", "実行する処理"],
+    "rows": [
+      ["1", "1", "9", "5", "25", "25 < 42", "10行目: low ← 6"],
+      ["2", "6", "9", "7", "37", "37 < 42", "10行目: low ← 8"],
+      ["3", "8", "9", "8", "42", "一致", "8行目: return 8"]
+    ]
+  },
+  "verify": {
+    "code": "function binarySearch(data, target, mids) {\n  let low = 1;\n  let high = data.length;\n  while (low <= high) {\n    const mid = Math.floor((low + high) / 2);\n    mids.push(mid);\n    if (data[mid - 1] === target) return mid;\n    else if (data[mid - 1] < target) low = mid + 1;\n    else high = mid - 1;\n  }\n  return -1;\n}\nconst mids = [];\nbinarySearch([4, 9, 13, 18, 25, 31, 37, 42, 50], 42, mids);\nreturn mids.join(', ');",
+    "expected": "5, 7, 8"
+  }
+}

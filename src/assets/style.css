@@ -150,7 +150,17 @@ code {
   width: max-content;
   min-width: 100%;
 }
-.code code { background: none; padding: 0; font-size: inherit; }
+.code code { background: none; padding: 0; font-size: inherit; counter-reset: line; }
+.code .line { counter-increment: line; }
+.code .line::before {
+  content: counter(line);
+  display: inline-block;
+  width: 2em;
+  margin-right: 1em;
+  text-align: right;
+  color: var(--muted);
+  user-select: none;
+}
 
 .choices-heading { font-size: 1.05rem; }
 .choices { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }

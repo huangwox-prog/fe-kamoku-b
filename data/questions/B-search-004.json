@@ -1,0 +1,43 @@
+{
+  "id": "B-search-004",
+  "title": "重複のある配列に対する二分探索の戻り値",
+  "category": "search",
+  "difficulty": 2,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "low < high を条件とし、high ← mid で範囲を狭める二分探索を、同じ値が並ぶ配列に適用したときの戻り値を求める問題。比較演算子の < と ≦ の違いがポイントです。",
+  "statement": [
+    "次の関数 `lowerBound` は、昇順に整列された配列 `data` と整数 `x` を受け取り、要素番号を返す。配列の要素番号は 1 から始まる。",
+    "`data` が {3, 8, 8, 15, 21, 27, 30} のとき、`lowerBound(data, 8)` の戻り値として正しいものを解答群の中から選べ。"
+  ],
+  "code": "○整数型: lowerBound(整数型の配列: data, 整数型: x)\n  整数型: low ← 1\n  整数型: high ← dataの要素数 + 1\n  整数型: mid\n  while (low < high)\n    mid ← (low + high) ÷ 2 の商\n    if (data[mid] < x)\n      low ← mid + 1\n    else\n      high ← mid\n    endif\n  endwhile\n  return low",
+  "choices": [
+    { "label": "ア", "text": "1" },
+    { "label": "イ", "text": "2" },
+    { "label": "ウ", "text": "3" },
+    { "label": "エ", "text": "4" }
+  ],
+  "answer": "イ",
+  "explanation": [
+    "2〜3行目で low = 1、high = 7 + 1 = 8 になります。5行目の条件は low < high なので、low と high が等しくなった時点でループを抜け、13行目で low を返します。",
+    "1回目: mid = (1 + 8) ÷ 2 の商 = 4。data[4] = 15 は 8 より小さくないので、7行目の条件は偽になり、10行目で high = 4 になります。",
+    "2回目: mid = (1 + 4) ÷ 2 の商 = 2。data[2] = 8 も「8 < 8」は偽なので、10行目で high = 2 になります。値が x と等しくても、探索はそこで止まらず、範囲の右端を mid に寄せます。",
+    "3回目: mid = (1 + 2) ÷ 2 の商 = 1。data[1] = 3 < 8 は真なので、8行目で low = 2 になります。low = high = 2 となりループを抜け、2 を返します。したがって正解は **イ** です。この関数は「x 以上である最初の要素の要素番号」を求めています。",
+    "**ア（1）** は、要素番号を 0 から数えたときの、最初の 8 の位置です。",
+    "**ウ（3）** は、8 が最後に現れる位置です。10行目で high を左に寄せ続けるので、同じ値が並ぶときは左端の位置が求まります。",
+    "**エ（4）** は、7行目の条件を data[mid] ≦ x と読み違えた場合の戻り値です（このときは「x より大きい最初の要素」の位置 4 が求まります）。"
+  ],
+  "trace": {
+    "columns": ["回", "low", "high", "mid（6行目）", "data[mid]", "data[mid] < x（7行目）", "実行する処理"],
+    "rows": [
+      ["1", "1", "8", "4", "15", "偽", "10行目: high ← 4"],
+      ["2", "1", "4", "2", "8", "偽", "10行目: high ← 2"],
+      ["3", "1", "2", "1", "3", "真", "8行目: low ← 2"],
+      ["終了", "2", "2", "-", "-", "-", "low < high が偽 → 13行目: return 2"]
+    ]
+  },
+  "verify": {
+    "code": "function lowerBound(data, x) {\n  let low = 1;\n  let high = data.length + 1;\n  while (low < high) {\n    const mid = Math.floor((low + high) / 2);\n    if (data[mid - 1] < x) low = mid + 1;\n    else high = mid;\n  }\n  return low;\n}\nreturn lowerBound([3, 8, 8, 15, 21, 27, 30], 8);",
+    "expected": "2"
+  }
+}

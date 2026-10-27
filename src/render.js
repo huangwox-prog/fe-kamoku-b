@@ -226,6 +226,15 @@ ${trace.rows.map((r) => `<tr>${r.map((v) => `<td>${esc(v)}</td>`).join('')}</tr>
 </div>`;
 }
 
+// 1行ずつ span で囲み、CSS カウンタで行番号を表示する（行番号はコピーされない）
+function codeLines(code) {
+  return code
+    .replace(/\n+$/, '')
+    .split('\n')
+    .map((line) => `<span class="line">${esc(line)}</span>`)
+    .join('\n');
+}
+
 function questionPage(ctx, q, prev, next) {
   const cat = ctx.categoryById[q.category];
   const related = ctx.questions.filter((o) => o.category === q.category && o.id !== q.id).slice(0, 5);
@@ -243,7 +252,7 @@ function questionPage(ctx, q, prev, next) {
     ${paragraphs(q.statement)}
   </section>
 
-  ${q.code ? `<div class="code-scroll" tabindex="0" role="region" aria-label="擬似言語のプログラム"><pre class="code"><code>${esc(q.code)}</code></pre></div>` : ''}
+  ${q.code ? `<div class="code-scroll" tabindex="0" role="region" aria-label="擬似言語のプログラム"><pre class="code"><code>${codeLines(q.code)}</code></pre></div>` : ''}
 
   <section class="choices-section">
     <h2 class="choices-heading">解答群</h2>
