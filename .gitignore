@@ -2,3 +2,6 @@ dist/
 node_modules/
 .DS_Store
 Thumbs.db
+
+# IPA公開問題（著作物のためリポジトリ・サイトに含めない）
+reference/
