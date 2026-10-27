@@ -1,0 +1,41 @@
+{
+  "id": "B-sort-001",
+  "title": "配列が昇順に並んでいるかを調べる条件",
+  "category": "sort",
+  "difficulty": 1,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "配列が昇順に整列済みかどうかを判定する関数で，falseを返す条件の空欄を埋める入門問題。等しい値が並ぶ場合の扱いがポイントです。",
+  "statement": [
+    "次のプログラム中の［　　］に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。",
+    "関数 `isSorted` は，整数型の配列 `a` の要素が昇順に並んでいれば true を，そうでなければ false を返す。ここで，隣り合う要素の値が等しい場合も昇順に並んでいるとみなす。例えば，{2, 5, 5, 8} は昇順に並んでいる。"
+  ],
+  "code": "○論理型: isSorted(整数型の配列: a)\n  整数型: i\n  for (i を 1 から aの要素数 － 1 まで 1 ずつ増やす)\n    if (［　　］)\n      return false\n    endif\n  endfor\n  return true",
+  "choices": [
+    { "label": "ア", "text": "a[i] ＜ a[i ＋ 1]" },
+    { "label": "イ", "text": "a[i] ≦ a[i ＋ 1]" },
+    { "label": "ウ", "text": "a[i] ＞ a[i ＋ 1]" },
+    { "label": "エ", "text": "a[i] ≧ a[i ＋ 1]" }
+  ],
+  "answer": "ウ",
+  "explanation": [
+    "4行目の条件が真になると5行目で false を返します。つまり空欄には「昇順になっていない」ことを表す条件を入れます。",
+    "隣り合う a[i] と a[i ＋ 1] で，前の値の方が大きいときが昇順の崩れです。等しい場合は昇順とみなすので，条件は **a[i] ＞ a[i ＋ 1]** です。正解は **ウ** です。",
+    "**エ（≧）** は，等しい値が並ぶ場合も false にしてしまいます。{2, 5, 5, 8} で i ＝ 2 のとき 5 ≧ 5 が真になり，誤って false を返します。",
+    "**ア（＜）・イ（≦）** は，昇順になっている（正しく並んでいる）ときに false を返してしまう，条件を逆に読んだ誤りです。"
+  ],
+  "trace": {
+    "columns": ["配列", "i", "a[i] ＞ a[i ＋ 1]（4行目）", "結果"],
+    "rows": [
+      ["{2, 5, 5, 8}", "1", "2 ＞ 5 → 偽", "-"],
+      ["{2, 5, 5, 8}", "2", "5 ＞ 5 → 偽", "-"],
+      ["{2, 5, 5, 8}", "3", "5 ＞ 8 → 偽", "8行目: return true"],
+      ["{3, 9, 4}", "1", "3 ＞ 9 → 偽", "-"],
+      ["{3, 9, 4}", "2", "9 ＞ 4 → 真", "5行目: return false"]
+    ]
+  },
+  "verify": {
+    "code": "// 全ての選択肢を試し，正しく判定できるものがちょうど1つかを確かめる\nconst conds = {\n  'a[i] ＜ a[i ＋ 1]': (x, y) => x < y,\n  'a[i] ≦ a[i ＋ 1]': (x, y) => x <= y,\n  'a[i] ＞ a[i ＋ 1]': (x, y) => x > y,\n  'a[i] ≧ a[i ＋ 1]': (x, y) => x >= y,\n};\nconst tests = [[[2, 5, 5, 8], true], [[3, 9, 4], false], [[1, 2, 3], true], [[7, 7], true], [[5, 1], false]];\nconst ok = [];\nfor (const [text, cond] of Object.entries(conds)) {\n  const isSorted = (a) => {\n    for (let i = 1; i <= a.length - 1; i++) if (cond(a[i - 1], a[i])) return false;\n    return true;\n  };\n  if (tests.every(([a, want]) => isSorted(a) === want)) ok.push(text);\n}\nreturn ok.length === 1 ? ok[0] : 'answers=' + ok.length;",
+    "expected": "a[i] ＞ a[i ＋ 1]"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "B-search-005",
+  "title": "値が含まれるかを調べる関数の空欄",
+  "category": "search",
+  "difficulty": 1,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "配列に値が含まれていればtrue，含まれていなければfalseを返す関数の，return文の空欄を埋める入門問題。",
+  "statement": [
+    "次のプログラム中の［ a ］と［ b ］に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。",
+    "関数 `contains` は，整数型の配列 `a` に値 `x` と等しい要素が一つでもあれば true を，一つもなければ false を返す。"
+  ],
+  "code": "○論理型: contains(整数型の配列: a, 整数型: x)\n  整数型: i\n  for (i を 1 から aの要素数 まで 1 ずつ増やす)\n    if (a[i] が x と等しい)\n      return ［ a ］\n    endif\n  endfor\n  return ［ b ］",
+  "choices": [
+    { "label": "ア", "text": "a: true ／ b: true" },
+    { "label": "イ", "text": "a: true ／ b: false" },
+    { "label": "ウ", "text": "a: false ／ b: true" },
+    { "label": "エ", "text": "a: false ／ b: false" }
+  ],
+  "answer": "イ",
+  "explanation": [
+    "5行目は，4行目で a[i] と x が等しいと分かったときに実行されます。見つかった時点で答えは決まるので，a は **true** です。",
+    "8行目は，for 文が最後まで回り終わったとき，つまりどの要素も x と等しくなかったときにだけ実行されます。したがって b は **false** で，正解は **イ** です。",
+    "**ア** では，見つからなくても true を返してしまいます。",
+    "**ウ・エ** では，見つかったときに false を返してしまいます。5行目と8行目のどちらが「見つかった場合」なのかを取り違えた誤りです。"
+  ],
+  "trace": {
+    "columns": ["呼出しの例", "i", "a[i] ＝ x（4行目）", "結果"],
+    "rows": [
+      ["a ＝ {6, 2, 9}，x ＝ 2", "1", "偽", "-"],
+      ["a ＝ {6, 2, 9}，x ＝ 2", "2", "真", "5行目: return true"],
+      ["a ＝ {6, 2, 9}，x ＝ 5", "1〜3", "全て偽", "8行目: return false"]
+    ]
+  },
+  "verify": {
+    "code": "// 全ての組合せを試し，見つかる場合・見つからない場合の両方で正しいものがちょうど1つかを確かめる\nconst tests = [[[6, 2, 9], 2, true], [[6, 2, 9], 5, false], [[7], 7, true], [[], 1, false]];\nconst ok = [];\nfor (const a of [true, false]) {\n  for (const b of [true, false]) {\n    const contains = (arr, x) => {\n      for (let i = 1; i <= arr.length; i++) if (arr[i - 1] === x) return a;\n      return b;\n    };\n    if (tests.every(([arr, x, want]) => contains(arr, x) === want)) ok.push('a: ' + a + ' ／ b: ' + b);\n  }\n}\nreturn ok.length === 1 ? ok[0] : 'answers=' + ok.length;",
+    "expected": "a: true ／ b: false"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "B-loop-004",
+  "title": "1 から n までを掛け合わせる関数の空欄",
+  "category": "loop",
+  "difficulty": 1,
+  "status": "verified",
+  "createdAt": "2026-10-27",
+  "description": "1からnまでの整数を全て掛けた値を返す関数の，初期値と更新式の空欄を埋める入門問題。掛け算の初期値が0ではなく1になる理由を確認します。",
+  "statement": [
+    "次のプログラム中の［ a ］と［ b ］に入れる正しい答えの組合せを，解答群の中から選べ。",
+    "関数 `product` は，1 以上の整数 `n` を受け取り，1 から n までの整数を全て掛けた値を返す。例えば，`product(4)` は 1 × 2 × 3 × 4 ＝ 24 を返す。"
+  ],
+  "code": "○整数型: product(整数型: n)\n  整数型: p ← ［ a ］\n  整数型: i\n  for (i を 1 から n まで 1 ずつ増やす)\n    p ← ［ b ］\n  endfor\n  return p",
+  "choices": [
+    { "label": "ア", "text": "a: 0 ／ b: p ＋ i" },
+    { "label": "イ", "text": "a: 0 ／ b: p × i" },
+    { "label": "ウ", "text": "a: 1 ／ b: p ＋ i" },
+    { "label": "エ", "text": "a: 1 ／ b: p × i" }
+  ],
+  "answer": "エ",
+  "explanation": [
+    "掛けた値を求めるので，5行目では p に i を掛けて p を更新します。b は **p × i** です。",
+    "2行目の初期値 a は **1** にします。1 は何に掛けても値を変えないので，1回目の繰返しで p ＝ 1 × 1 ＝ 1，2回目で 1 × 2 ＝ 2 と正しく積が作られます。したがって正解は **エ** です。",
+    "**ア・ウ（b が p ＋ i）** は，掛け算ではなく足し算になり，1 から n までの合計を求めてしまいます（ウなら product(4) は 1 ＋ 1 ＋ 2 ＋ 3 ＋ 4 ＝ 11）。",
+    "**イ（a が 0）** は，合計を求めるときの初期値 0 をそのまま使った場合です。0 に何を掛けても 0 なので，戻り値は常に 0 になります。"
+  ],
+  "trace": {
+    "columns": ["i", "p（5行目の後）"],
+    "rows": [
+      ["（開始）", "1"],
+      ["1", "1 × 1 ＝ 1"],
+      ["2", "1 × 2 ＝ 2"],
+      ["3", "2 × 3 ＝ 6"],
+      ["4", "6 × 4 ＝ 24"]
+    ]
+  },
+  "verify": {
+    "code": "// 全ての組合せを試し，product(1)〜product(6) が正しくなるものがちょうど1つかを確かめる\nconst inits = [0, 1];\nconst updates = { 'p ＋ i': (p, i) => p + i, 'p × i': (p, i) => p * i };\nconst fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));\nconst ok = [];\nfor (const a of inits) {\n  for (const [b, f] of Object.entries(updates)) {\n    let good = true;\n    for (let n = 1; n <= 6; n++) {\n      let p = a;\n      for (let i = 1; i <= n; i++) p = f(p, i);\n      if (p !== fact(n)) good = false;\n    }\n    if (good) ok.push('a: ' + a + ' ／ b: ' + b);\n  }\n}\nreturn ok.length === 1 ? ok[0] : 'answers=' + ok.length;",
+    "expected": "a: 1 ／ b: p × i"
+  }
+}
